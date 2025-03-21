@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -8,6 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { BookReducer } from './book/book.reducer';
 import { BookListComponent } from './book-list/book-list.component';
 import { AppState } from './app.state';
+import { BookEffect } from './book/book.effect';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,8 @@ import { AppState } from './app.state';
     //whats here, the name and type, the name must 
     //match what's in the app state since we have type safety. 
     StoreModule.forRoot<AppState>({book: BookReducer}, {}),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([BookEffect]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [],
   bootstrap: [AppComponent]

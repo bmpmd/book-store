@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { AddBook, RemoveBook } from "./book.actions";
+import { AddBook, AddBookFailure, AddBookSuccess, RemoveBook } from "./book.actions";
 import { Book } from "../models/book";
 
 //import createReducer and on, to do something on an action
@@ -16,10 +16,27 @@ export const initialState : Book[] = []
 // things to do on certain actions as rest of props. 
 export const BookReducer = createReducer(
     initialState,
+    //pass on state to our effects, which will trigger
+    //the two following actions: 
     on(AddBook, 
-      (state, {id, title, author}) =>
-        [...state, {id, title, author}]
+     (state) => {return state}
     ),
+
+    //on service success, change state
+    on(AddBookSuccess, 
+        (state, {id, title, author}) =>
+            [...state, {id, title, author}]
+    ),
+
+    //on service failure, display err and pass on state
+    on(AddBookFailure,
+        (state, {error}) => {
+            console.error(error)
+            return state
+        }
+    ),
+
+
     on(RemoveBook,
         (state, {bookId}) => state.filter(book=> book.id !== bookId)
     )
