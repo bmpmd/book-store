@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { AddBook, AddBookFailure, AddBookSuccess, RemoveBook } from "./book.actions";
+import { AddBook, AddBookFailure, AddBookSuccess, RemoveBook, RemoveBookFailure, RemoveBookSuccess } from "./book.actions";
 import { Book } from "../models/book";
 
 //import createReducer and on, to do something on an action
@@ -38,7 +38,20 @@ export const BookReducer = createReducer(
 
 
     on(RemoveBook,
-        (state, {bookId}) => state.filter(book=> book.id !== bookId)
+        (state) => {return state}
+    ),
+    on (RemoveBookSuccess,
+        (state, {bookId}) => state.filter(book => book.id !== bookId)
+    ),
+
+    on(RemoveBookFailure,
+        (state, {error}) => {
+            console.error(error)
+            return state
+        }
     )
+
+
+    
     
 )

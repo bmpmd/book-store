@@ -10,3 +10,9 @@ export const AddBookFailure =
 
 export const RemoveBook = 
     createAction("[Book] Remove Book", props<{bookId:string}>())
+
+export const RemoveBookSuccess = 
+    createAction("[Book] Remove book success", props<{bookId: string}>())
+
+export const RemoveBookFailure = 
+    createAction("[Book] Remove book failure", props<{error: any}>())

@@ -17,4 +17,8 @@ export class BookService {
     // return throwError(()=> err)
     return of(book)
   }
+
+  removeBook(id:string): Observable<string>{
+    return of(id)
+  }
 }

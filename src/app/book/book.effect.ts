@@ -31,5 +31,23 @@ export class BookEffect {
     )
   );
 
+  removeBook$ = createEffect(()=>
+    this.actions$.pipe(
+
+        //listen for remove book 
+        ofType(bookActions.RemoveBook),
+
+        //for each removebook, call the book service 
+        mergeMap(action=> this.bookService.removeBook(action.bookId)
+        .pipe(
+            //if removal is successful, dispatch success action 
+            map(bookId => bookActions.RemoveBookSuccess({bookId})),
+
+            catchError(error => of(bookActions.RemoveBookFailure({error})))
+        )
+    )
+    )
+  )
+
   constructor(private actions$: Actions, private bookService: BookService) {}
 }
